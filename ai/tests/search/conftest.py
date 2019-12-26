@@ -27,3 +27,15 @@ def graph():
     root.edges[1][1].edges[0][1].edges.append((101, goal))
 
     return root, goal
+
+
+@pytest.fixture
+def tree():
+    goal = GraphNode(name="Bucharest", edges=[])
+    root = GraphNode(name="Sibiu", edges=[])
+    root.edges.append((1, GraphNode(name="Fagaras", edges=[])))
+    root.edges.append((1, GraphNode(name="Rimnicu Vilcea", edges=[])))
+    root.edges[0][1].edges.append((1, goal))
+    root.edges[1][1].edges.append((1, GraphNode(name="Pitesti", edges=[])))
+
+    return root, goal
