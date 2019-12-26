@@ -1,4 +1,14 @@
 def search(initial_state, goal_state):
+    """
+        Low-memory depth-first implementation.
+
+        Args:
+            initial_state (GraphNode):
+            goal_state (GraphNode):
+
+        Returns:
+            List[GraphNode] - optimal path from initial_state to goal_state
+        """
     path = _search(initial_state, goal_state)
     if path is None:
         raise ValueError("No valid path between initial state and goal state.")
