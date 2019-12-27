@@ -2,6 +2,7 @@ from ai.search.exception import NoValidPathException, CostLimitReachedException,
     InputException
 
 
+#TODO: Doesn't work yet
 def search(initial_state, goal_state, heuristic_fn):
     """
 
