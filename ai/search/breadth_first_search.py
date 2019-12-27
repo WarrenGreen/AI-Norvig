@@ -49,10 +49,10 @@ def search(initial_state, goal_state):
     """
 
     Args:
-        initial_state (GraphNode):
-        goal_state (GraphNode):
+        initial_state (Union[GraphNode, TreeNode]):
+        goal_state (Union[GraphNode, TreeNode]):
 
     Returns:
-        List[GraphNode] - optimal path from initial_state to goal_state
+        List[Union[GraphNode, TreeNode]] - optimal path from initial_state to goal_state
     """
     return BFS(initial_state, goal_state).search()

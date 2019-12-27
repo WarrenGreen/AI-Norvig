@@ -1,6 +1,6 @@
 import pytest
 
-from ai.search.node import GraphNode
+from ai.search.node import GraphNode, TreeNode
 
 
 @pytest.fixture
@@ -37,11 +37,11 @@ def graph():
 
 @pytest.fixture
 def tree():
-    goal = GraphNode(name="Bucharest")
-    root = GraphNode(name="Sibiu")
-    root.edges.append((1, GraphNode(name="Fagaras")))
-    root.edges.append((1, GraphNode(name="Rimnicu Vilcea")))
-    root.edges[0][1].edges.append((1, goal))
-    root.edges[1][1].edges.append((1, GraphNode(name="Pitesti")))
+    goal = TreeNode(name="Bucharest")
+    root = TreeNode(name="Sibiu")
+    root.add_edge(1, TreeNode(name="Fagaras"))
+    root.add_edge(1, TreeNode(name="Rimnicu Vilcea"))
+    root.edges[0][1].add_edge(1, goal)
+    root.edges[1][1].add_edge(1, TreeNode(name="Pitesti"))
 
     return root, goal

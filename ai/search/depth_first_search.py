@@ -10,13 +10,13 @@ def search(initial_state, goal_state, limit=None):
         Low-memory depth-first implementation.
 
         Args:
-            initial_state (GraphNode):
-            goal_state (GraphNode):
+            initial_state (Union[GraphNode, TreeNode]):
+            goal_state (Union[GraphNode, TreeNode]):
             limit (Optional[int]): Maximum depth to traverse. `None` value
                 signifies infinite depth.
 
         Returns:
-            List[GraphNode] - optimal path from initial_state to goal_state
+            List[Union[GraphNode, TreeNode]] - optimal path from initial_state to goal_state
         """
     return _search(initial_state, goal_state, limit, set())
 

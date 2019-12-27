@@ -22,3 +22,8 @@ class GraphNode:
 
     def __str__(self):
         return f"GraphNode<{self.name}>"
+
+
+class TreeNode(GraphNode):
+    def add_edge(self, cost, node):
+        self.edges.append((cost, node))
