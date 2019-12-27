@@ -6,11 +6,11 @@ def search(initial_state, goal_state):
     """
 
         Args:
-            initial_state (Union[GraphNode, TreeNode]):
-            goal_state (Union[GraphNode, TreeNode]):
+            initial_state (GraphNode):
+            goal_state (GraphNode):
 
         Returns:
-            List[Union[GraphNode, TreeNode]] - optimal path from initial_state to goal_state
+            List[GraphNode] - optimal path from initial_state to goal_state
         """
     bfs_forward = BFS(initial_state, goal_state)
     bfs_backward = BFS(goal_state, initial_state)

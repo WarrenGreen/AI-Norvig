@@ -1,5 +1,3 @@
-from typing import NamedTuple, List, Tuple
-
 from ai.search.exception import InputException
 
 
@@ -21,7 +19,10 @@ class GraphNode:
         return hash(self.name)
 
     def __str__(self):
-        return f"GraphNode<{self.name}>"
+        return f"{self.__class__.__name__}<{self.name},  edges: {[node.name for _, node in self.edges]}>"
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}<{self.name},  edges: {[node.name for _, node in self.edges]}>"
 
 
 class TreeNode(GraphNode):
