@@ -5,37 +5,43 @@ from ai.search.node import GraphNode
 
 @pytest.fixture
 def unweighted_graph():
-    goal = GraphNode(name="Bucharest", edges=[])
-    root = GraphNode(name="Sibiu", edges=[])
-    root.edges.append((1, GraphNode(name="Fagaras", edges=[])))
-    root.edges.append((1, GraphNode(name="Rimnicu Vilcea", edges=[])))
-    root.edges[0][1].edges.append((1, goal))
-    root.edges[1][1].edges.append((1, GraphNode(name="Pitesti", edges=[])))
-    root.edges[1][1].edges[0][1].edges.append((1, goal))
+    bucharest = GraphNode(name="Bucharest")
+    sibiu = GraphNode(name="Sibiu")
+    fagaras = GraphNode(name="Fagaras")
+    rimnicu = GraphNode(name="Rimnicu Vilcea")
+    pitesti = GraphNode(name="Pitesti")
+    sibiu.add_edge(1, fagaras)
+    sibiu.add_edge(1, rimnicu)
+    fagaras.add_edge(1, bucharest)
+    rimnicu.add_edge(1, pitesti)
+    pitesti.add_edge(1, bucharest)
 
-    return root, goal
+    return sibiu, bucharest
 
 
 @pytest.fixture
 def graph():
-    goal = GraphNode(name="Bucharest", edges=[])
-    root = GraphNode(name="Sibiu", edges=[])
-    root.edges.append((99, GraphNode(name="Fagaras", edges=[])))
-    root.edges.append((80, GraphNode(name="Rimnicu Vilcea", edges=[])))
-    root.edges[0][1].edges.append((211, goal))
-    root.edges[1][1].edges.append((97, GraphNode(name="Pitesti", edges=[])))
-    root.edges[1][1].edges[0][1].edges.append((101, goal))
+    bucharest = GraphNode(name="Bucharest")
+    sibiu = GraphNode(name="Sibiu")
+    fagaras = GraphNode(name="Fagaras")
+    rimnicu = GraphNode(name="Rimnicu Vilcea")
+    pitesti = GraphNode(name="Pitesti")
+    sibiu.add_edge(99, fagaras)
+    sibiu.add_edge(80, rimnicu)
+    fagaras.add_edge(211, bucharest)
+    rimnicu.add_edge(97, pitesti)
+    pitesti.add_edge(101, bucharest)
 
-    return root, goal
+    return sibiu, bucharest
 
 
 @pytest.fixture
 def tree():
-    goal = GraphNode(name="Bucharest", edges=[])
-    root = GraphNode(name="Sibiu", edges=[])
-    root.edges.append((1, GraphNode(name="Fagaras", edges=[])))
-    root.edges.append((1, GraphNode(name="Rimnicu Vilcea", edges=[])))
+    goal = GraphNode(name="Bucharest")
+    root = GraphNode(name="Sibiu")
+    root.edges.append((1, GraphNode(name="Fagaras")))
+    root.edges.append((1, GraphNode(name="Rimnicu Vilcea")))
     root.edges[0][1].edges.append((1, goal))
-    root.edges[1][1].edges.append((1, GraphNode(name="Pitesti", edges=[])))
+    root.edges[1][1].edges.append((1, GraphNode(name="Pitesti")))
 
     return root, goal

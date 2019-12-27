@@ -2,7 +2,7 @@ import pytest
 
 from ai.search.exception import NoValidPathException, InputException
 from ai.search.node import GraphNode
-from ai.search.breadth_first_search import search
+from ai.search.bidirectional_search import search
 
 
 def test_search(unweighted_graph):

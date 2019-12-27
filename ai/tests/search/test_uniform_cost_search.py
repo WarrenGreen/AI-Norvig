@@ -18,7 +18,7 @@ def test_search(graph):
 def test_search_invalid_goal(graph):
     root, goal = graph
     with pytest.raises(NoValidPathException):
-        path = search(root, GraphNode("invalid", []))
+        path = search(root, GraphNode("invalid"))
 
     with pytest.raises(InputException):
         path = search(root, None)

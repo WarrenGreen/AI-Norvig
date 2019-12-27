@@ -18,10 +18,10 @@ def search(initial_state, goal_state, limit=None):
         Returns:
             List[GraphNode] - optimal path from initial_state to goal_state
         """
-    return _search(initial_state, goal_state, limit)
+    return _search(initial_state, goal_state, limit, set())
 
 
-def _search(initial_state, goal_state, limit):
+def _search(initial_state, goal_state, limit, explored):
     if initial_state is None or goal_state is None:
         raise InputException("Initial state and goal state cannot be None.")
 
@@ -33,10 +33,13 @@ def _search(initial_state, goal_state, limit):
     if initial_state == goal_state:
         return [goal_state]
 
+    explored.add(initial_state)
     depth_limit_reached = len(initial_state.edges) > 0
     for _, child_node in initial_state.edges:
+        if child_node in explored:
+            continue
         try:
-            path = _search(child_node, goal_state, limit)
+            path = _search(child_node, goal_state, limit, explored)
         except DepthLimitReachedException:
             pass
         except NoValidPathException:
