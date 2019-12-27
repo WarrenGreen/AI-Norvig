@@ -1,7 +1,8 @@
 import pytest
 
-from ai.src.search.node import GraphNode
-from ai.src.search.uniform_cost_search import search
+from ai.search.exception import InputException, NoValidPathException
+from ai.search.node import GraphNode
+from ai.search.uniform_cost_search import search
 
 
 def test_search(graph):
@@ -16,14 +17,14 @@ def test_search(graph):
 
 def test_search_invalid_goal(graph):
     root, goal = graph
-    with pytest.raises(ValueError):
+    with pytest.raises(NoValidPathException):
         path = search(root, GraphNode("invalid", []))
 
-    with pytest.raises(ValueError):
+    with pytest.raises(InputException):
         path = search(root, None)
 
 
 def test_search_invalid_start(graph):
     root, goal = graph
-    with pytest.raises(ValueError):
+    with pytest.raises(InputException):
         path = search(None, goal)

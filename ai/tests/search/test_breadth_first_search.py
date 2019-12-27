@@ -1,7 +1,8 @@
 import pytest
 
-from ai.src.search.node import GraphNode
-from ai.src.search.breadth_first_search import search
+from ai.search.exception import NoValidPathException, InputException
+from ai.search.node import GraphNode
+from ai.search.breadth_first_search import search
 
 
 def test_search(unweighted_graph):
@@ -15,14 +16,14 @@ def test_search(unweighted_graph):
 
 def test_search_invalid_goal(unweighted_graph):
     root, goal = unweighted_graph
-    with pytest.raises(ValueError):
+    with pytest.raises(NoValidPathException):
         path = search(root, GraphNode("invalid", []))
 
-    with pytest.raises(ValueError):
+    with pytest.raises(InputException):
         path = search(root, None)
 
 
 def test_search_invalid_start(unweighted_graph):
     root, goal = unweighted_graph
-    with pytest.raises(ValueError):
+    with pytest.raises(InputException):
         path = search(None, goal)

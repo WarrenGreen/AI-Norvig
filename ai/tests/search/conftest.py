@@ -1,6 +1,6 @@
 import pytest
 
-from ai.src.search.node import GraphNode
+from ai.search.node import GraphNode
 
 
 @pytest.fixture

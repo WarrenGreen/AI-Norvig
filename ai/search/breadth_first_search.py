@@ -1,3 +1,6 @@
+from ai.search.exception import InputException, NoValidPathException
+
+
 def search(initial_state, goal_state):
     """
 
@@ -9,7 +12,7 @@ def search(initial_state, goal_state):
         List[GraphNode] - optimal path from initial_state to goal_state
     """
     if initial_state is None or goal_state is None:
-        raise ValueError("No valid path between initial state and goal state.")
+        raise InputException("Initial state and goal state cannot be None.")
 
     queue_1 = [(initial_state, [])]
     queue_2 = []
@@ -27,4 +30,4 @@ def search(initial_state, goal_state):
             queue_1 = queue_2
             queue_2 = []
 
-    raise ValueError("No valid path between initial state and goal state.")
+    raise NoValidPathException("No valid path between initial state and goal state.")
