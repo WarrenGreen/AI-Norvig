@@ -8,7 +8,7 @@ def search(initial_state, goal_state, heuristic_fn):
         Args:
             initial_state (GraphNode):
             goal_state (GraphNode):
-            heuristic_fn (Callable[GraphNode]): function to estimate cost between parameter
+            heuristic_fn (Callable[GraphNode, GraphNode]): function to estimate cost between parameter
                 node and goal state
 
         Returns:

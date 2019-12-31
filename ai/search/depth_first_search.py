@@ -12,7 +12,7 @@ def search(
     depth_limit=None,
     cost_limit=None,
     *,
-    heuristic_fn=lambda x: 0
+    heuristic_fn=lambda start, end: 0
 ):
     """
         Low-memory depth-first implementation.
@@ -24,8 +24,8 @@ def search(
                 signifies infinite depth.
             cost_limit (Optional[int]): Maximum cost to traverse. `None` value
                 signifies infinite cost.
-            heuristic_fn (Callable[GraphNode]): function to estimate cost between parameter
-                node and goal state
+            heuristic_fn (Callable[GraphNode, GraphNode]): function to estimate cost
+                between parameter node and goal state
 
         Returns:
             List[GraphNode] - optimal path from initial_state to goal_state
@@ -71,7 +71,7 @@ def _search(
         try:
             path = _search(
                 initial_state=child_node,
-                cost=cost + edge_cost + heuristic_fn(child_node),
+                cost=cost + edge_cost + heuristic_fn(child_node, goal_state),
                 goal_state=goal_state,
                 depth_limit=depth_limit,
                 cost_limit=cost_limit,

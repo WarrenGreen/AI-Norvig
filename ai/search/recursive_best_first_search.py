@@ -9,7 +9,7 @@ def search(initial_state, goal_state, heuristic_fn):
     Args:
         initial_state (GraphNode):
         goal_state (GraphNode):
-        heuristic_fn (Callable[GraphNode]): function to estimate cost between parameter
+        heuristic_fn (Callable[GraphNode, GraphNode]): function to estimate cost between parameter
                 node and goal state
 
     Returns:
@@ -17,7 +17,7 @@ def search(initial_state, goal_state, heuristic_fn):
     """
     if initial_state is None or goal_state is None:
         raise InputException("Initial state and goal state cannot be None.")
-    initial_state.f = 0 + heuristic_fn(initial_state)
+    initial_state.f = 0 + heuristic_fn(initial_state, goal_state)
     initial_state.g = 0
     _search(initial_state, goal_state, [], 9999, heuristic_fn)
 
@@ -31,7 +31,7 @@ def _search(initial_state, goal_state, path, f_limit, heuristic_fn):
 
     for edge_cost, child_node in initial_state.edges:
         child_node.g = initial_state.g + edge_cost
-        child_node.f = max(child_node.g + heuristic_fn(child_node), initial_state.f)
+        child_node.f = max(child_node.g + heuristic_fn(child_node, goal_state), initial_state.f)
 
     while True:
         best_node = None
