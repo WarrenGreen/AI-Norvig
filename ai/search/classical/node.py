@@ -1,6 +1,6 @@
 from random import random
 
-from ai.search.exception import InputException
+from ai.search.classical.exception import InputException
 
 
 class GraphNode:

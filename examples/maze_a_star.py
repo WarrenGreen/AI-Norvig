@@ -1,4 +1,4 @@
-from ai.search.a_star import search
+from ai.search.classical.a_star import search
 from examples.util import convert_maze_to_nodes, maze_1
 
 

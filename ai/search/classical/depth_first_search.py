@@ -1,4 +1,4 @@
-from ai.search.exception import (
+from ai.search.classical.exception import (
     NoValidPathException,
     InputException,
     DepthLimitReachedException,

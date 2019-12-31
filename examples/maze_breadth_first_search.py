@@ -1,4 +1,4 @@
-from ai.search.breadth_first_search import search
+from ai.search.classical.breadth_first_search import search
 from examples.util import convert_maze_to_nodes, maze_1
 
 

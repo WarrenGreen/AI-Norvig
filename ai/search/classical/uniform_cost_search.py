@@ -1,16 +1,14 @@
 from queue import PriorityQueue
 
-from ai.search.exception import InputException, NoValidPathException
+from ai.search.classical.exception import InputException, NoValidPathException
 
 
-def search(initial_state, goal_state, heuristic_fn):
+def search(initial_state, goal_state):
     """
 
     Args:
         initial_state (GraphNode):
         goal_state (GraphNode):
-        heuristic_fn (Callable[GraphNode, GraphNode]): function to estimate cost between parameter
-            node and goal state
 
     Returns:
         List[GraphNode] - optimal path from initial_state to goal_state
@@ -29,7 +27,7 @@ def search(initial_state, goal_state, heuristic_fn):
         if node == goal_state:
             return new_path
         for edge_cost, child_node in node.edges:
-            child_cost = path_cost + edge_cost + heuristic_fn(child_node, goal_state)
+            child_cost = path_cost + edge_cost
             if (child_node not in explored and child_node not in frontier_set) or (
                 child_node in frontier_set and frontier_set[child_node] > child_cost
             ):

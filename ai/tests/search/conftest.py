@@ -1,6 +1,6 @@
 import pytest
 
-from ai.search.node import GraphNode, TreeNode
+from ai.search.classical.node import GraphNode, TreeNode
 
 
 @pytest.fixture

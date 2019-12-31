@@ -1,4 +1,4 @@
-from ai.search.exception import NoValidPathException, CostLimitReachedException, \
+from ai.search.classical.exception import NoValidPathException, CostLimitReachedException, \
     InputException
 
 

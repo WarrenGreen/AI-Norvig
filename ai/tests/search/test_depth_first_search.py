@@ -1,12 +1,12 @@
 import pytest
 
-from ai.search.exception import (
+from ai.search.classical.exception import (
     InputException,
     NoValidPathException,
     DepthLimitReachedException,
 )
-from ai.search.node import GraphNode
-from ai.search.depth_first_search import search
+from ai.search.classical.node import GraphNode
+from ai.search.classical.depth_first_search import search
 
 
 def test_search(tree):
