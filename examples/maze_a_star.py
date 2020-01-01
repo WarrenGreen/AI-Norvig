@@ -14,5 +14,5 @@ def main():
     print(search(start, end, manhattan_distance))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

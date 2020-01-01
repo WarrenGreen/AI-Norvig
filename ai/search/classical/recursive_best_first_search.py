@@ -1,8 +1,11 @@
-from ai.search.classical.exception import NoValidPathException, CostLimitReachedException, \
-    InputException
+from ai.search.classical.exception import (
+    NoValidPathException,
+    CostLimitReachedException,
+    InputException,
+)
 
 
-#TODO: Doesn't work yet
+# TODO: Doesn't work yet
 def search(initial_state, goal_state, heuristic_fn):
     """
 
@@ -31,7 +34,9 @@ def _search(initial_state, goal_state, path, f_limit, heuristic_fn):
 
     for edge_cost, child_node in initial_state.edges:
         child_node.g = initial_state.g + edge_cost
-        child_node.f = max(child_node.g + heuristic_fn(child_node, goal_state), initial_state.f)
+        child_node.f = max(
+            child_node.g + heuristic_fn(child_node, goal_state), initial_state.f
+        )
 
     while True:
         best_node = None
