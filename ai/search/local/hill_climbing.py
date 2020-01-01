@@ -86,7 +86,9 @@ def search(problem, sideways_moves=False, successor_mode="steepest"):
         elif successor_mode == "steepest":
             successor, successor_value = get_best_successor(problem, current_state)
         else:
-            raise ValueError(f"Invalid successor mode chosen. Must be one of: {SUCCESSOR_MODES}")
+            raise ValueError(
+                f"Invalid successor mode chosen. Must be one of: {SUCCESSOR_MODES}"
+            )
 
         if stop_criteria_op(successor_value, current_value):
             return current_state, current_value
