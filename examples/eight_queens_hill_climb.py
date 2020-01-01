@@ -1,12 +1,31 @@
 import argparse
 
-from ai.search.local.hill_climbing import search
+from ai.search.local.hill_climbing import search as hill_climb
+from ai.search.local.random_restart_hill_climbing import (
+    search as random_restart_hill_climbing,
+)
 from ai.search.local.problem import EightQueens
 
 
 def main(config):
     problem = EightQueens(size=config.size)
-    print(search(problem, sideways_moves=config.allow_sideways_moves))
+    if config.random_restart:
+        print(
+            random_restart_hill_climbing(
+                problem,
+                goal=0,
+                sideways_moves=config.allow_sideways_moves,
+                successor_mode=config.mode,
+            )
+        )
+    else:
+        print(
+            hill_climb(
+                problem,
+                sideways_moves=config.allow_sideways_moves,
+                successor_mode=config.mode,
+            )
+        )
 
 
 if __name__ == "__main__":
@@ -20,6 +39,11 @@ if __name__ == "__main__":
         "--allow_sideways_moves",
         action="store_true",
         help="Allow sideways moves on plateaus",
+    )
+    parser.add_argument(
+        "--random_restart",
+        action="store_true",
+        help="Random restart until goal is reached",
     )
     parser.add_argument(
         "--mode",

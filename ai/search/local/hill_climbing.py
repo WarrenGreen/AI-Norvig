@@ -17,8 +17,12 @@ def get_best_successor(problem, current_state):
     return best_successor, best_successor_value
 
 
-def get_stochastic_successor(problem, current_state, stop_criteria_op):
+def get_stochastic_successor(problem, current_state, sideways_moves):
     """ Get random uphill successor proportional to steepness. """
+    if sideways_moves:
+        stop_criteria_op = operator.le
+    else:
+        stop_criteria_op = operator.lt
     uphill_successors = []
     current_value = problem.get_value(current_state)
     total_value = 0
@@ -28,15 +32,18 @@ def get_stochastic_successor(problem, current_state, stop_criteria_op):
             total_value += successor_value
             uphill_successors.append((successor, successor_value))
 
+    if total_value == 0:
+        return None, None
+
     # Randomly choose a successor proportionally to their steepness
-    successor_index = randint(0, total_value - 1)
+    successor_index = randint(0, abs(total_value) - 1)
     index = 0
     outer_index = 0
     mid_index = 0
     while index < successor_index:
         mid_index += 1
         index += 1
-        if mid_index >= uphill_successors[outer_index][1]:
+        if mid_index >= abs(uphill_successors[outer_index][1]):
             outer_index += 1
             mid_index = 0
 
@@ -54,7 +61,9 @@ def get_first_choice_successor(problem, current_state, stop_criteria_op):
     return None, 0
 
 
-def search(problem, sideways_moves=False, successor_mode="steepest"):
+def search(
+    problem, sideways_moves=False, successor_mode="steepest", max_sideways_moves=20
+):
     """
 
     Args:
@@ -62,6 +71,8 @@ def search(problem, sideways_moves=False, successor_mode="steepest"):
         sideways_moves (bool): Allow sideways moves on plateaus
         successor_mode (str): Which successor selection mode to choose.
                                 ["steepest", "first-choice", "stochastic"]
+        max_sideways_moves(int): Maximum sideways moves to make in seqence before
+            quitting to defend against a global maxima on a plateau
 
     Returns:
         Tuple[List, int] solution state and solution value
@@ -74,6 +85,7 @@ def search(problem, sideways_moves=False, successor_mode="steepest"):
     else:
         stop_criteria_op = operator.le
 
+    sideways_count = 0
     while True:
         if successor_mode == "first-choice":
             successor, successor_value = get_first_choice_successor(
@@ -81,7 +93,7 @@ def search(problem, sideways_moves=False, successor_mode="steepest"):
             )
         elif successor_mode == "stochastic":
             successor, successor_value = get_stochastic_successor(
-                problem, current_state, stop_criteria_op
+                problem, current_state, sideways_moves
             )
         elif successor_mode == "steepest":
             successor, successor_value = get_best_successor(problem, current_state)
@@ -90,7 +102,14 @@ def search(problem, sideways_moves=False, successor_mode="steepest"):
                 f"Invalid successor mode chosen. Must be one of: {SUCCESSOR_MODES}"
             )
 
-        if stop_criteria_op(successor_value, current_value):
+        if successor_value == current_value:
+            sideways_count += 1
+
+        if (
+            successor is None
+            or (max_sideways_moves is not None and sideways_count > max_sideways_moves)
+            or stop_criteria_op(successor_value, current_value)
+        ):
             return current_state, current_value
         else:
             current_state = successor
