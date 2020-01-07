@@ -1,5 +1,5 @@
 from ai.search.classical.breadth_first_search import BFS
-from ai.search.classical.exception import NoValidPathException
+from ai.search.exception import NoValidPathException
 
 
 def search(initial_state, goal_state):

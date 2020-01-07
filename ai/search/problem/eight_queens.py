@@ -1,31 +1,8 @@
-from abc import abstractmethod
 from collections import defaultdict
 from copy import copy
 from random import randint
 
-
-class Problem:
-    @abstractmethod
-    def generate_successors(self, state):
-        """
-        Args:
-            state (List): representation of current state
-
-        Returns:
-            Generator[List, None, None] representation of state
-        """
-        raise NotImplementedError()
-
-    @abstractmethod
-    def get_value(self, state):
-        """
-        Args:
-            state: representation of current state
-
-        Returns:
-            int value of current state
-
-        """
+from ai.search.problem.problem import Problem
 
 
 class EightQueens(Problem):

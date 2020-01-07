@@ -1,6 +1,6 @@
 import pytest
 
-from ai.search.classical.exception import InputException, NoValidPathException
+from ai.search.exception import InputException, NoValidPathException
 from ai.search.classical.node import GraphNode
 from ai.search.classical.iterative_deepening_a_star import search
 

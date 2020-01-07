@@ -1,6 +1,6 @@
 import pytest
 
-from ai.search.classical.exception import NoValidPathException, InputException
+from ai.search.exception import NoValidPathException, InputException
 from ai.search.classical.node import GraphNode
 from ai.search.classical.breadth_first_search import search
 

@@ -1,6 +1,6 @@
 from queue import PriorityQueue
 
-from ai.search.classical.exception import InputException, NoValidPathException
+from ai.search.exception import InputException, NoValidPathException
 
 
 def search(initial_state, goal_state, heuristic_fn):

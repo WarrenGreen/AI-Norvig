@@ -1,4 +1,4 @@
-from ai.search.classical.exception import InputException, NoValidPathException
+from ai.search.exception import InputException, NoValidPathException
 
 
 class BFS:

@@ -1,5 +1,5 @@
 from ai.search.classical.depth_first_search import search as dfs
-from ai.search.classical.exception import DepthLimitReachedException
+from ai.search.exception import DepthLimitReachedException
 
 
 def search(initial_state, goal_state):

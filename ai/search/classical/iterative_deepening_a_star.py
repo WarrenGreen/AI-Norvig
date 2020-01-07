@@ -1,5 +1,5 @@
 from ai.search.classical.depth_first_search import search as dfs
-from ai.search.classical.exception import CostLimitReachedException
+from ai.search.exception import CostLimitReachedException
 
 
 def search(initial_state, goal_state, heuristic_fn):

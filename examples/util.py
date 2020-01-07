@@ -1,4 +1,4 @@
-from ai.search.classical.exception import InputException
+from ai.search.exception import InputException
 from ai.search.classical.node import GraphNode
 
 
