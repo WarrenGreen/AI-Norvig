@@ -1,5 +1,5 @@
 import operator
-from random import choice, randint
+from random import randint
 
 SUCCESSOR_MODES = ["steepest", "first-choice", "stochastic"]
 
@@ -10,7 +10,7 @@ def get_best_successor(problem, current_state):
     best_successor_value = None
     for successor in problem.generate_successors(current_state):
         successor_value = problem.get_value(successor)
-        if best_successor is None or successor_value > best_successor_value:
+        if best_successor is None or successor_value >= best_successor_value:
             best_successor = successor
             best_successor_value = successor_value
 
