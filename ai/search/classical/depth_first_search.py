@@ -7,19 +7,13 @@ from ai.search.exception import (
 
 
 def search(
-    initial_state,
-    goal_state,
-    depth_limit=None,
-    cost_limit=None,
-    *,
-    heuristic_fn=lambda start, end: 0
+    problem, depth_limit=None, cost_limit=None, *, heuristic_fn=lambda start, end: 0
 ):
     """
         Low-memory depth-first implementation.
 
         Args:
-            initial_state (GraphNode):
-            goal_state (GraphNode):
+            problem (GraphProblem):
             depth_limit (Optional[int]): Maximum depth to traverse. `None` value
                 signifies infinite depth.
             cost_limit (Optional[int]): Maximum cost to traverse. `None` value
@@ -31,9 +25,9 @@ def search(
             List[GraphNode] - optimal path from initial_state to goal_state
         """
     return _search(
-        initial_state=initial_state,
+        initial_state=problem.start_node,
         cost=0,
-        goal_state=goal_state,
+        goal_state=problem.goal_node,
         depth_limit=depth_limit,
         cost_limit=cost_limit,
         explored=set(),

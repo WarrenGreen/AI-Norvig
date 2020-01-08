@@ -1,6 +1,7 @@
 import pytest
 
-from ai.search.classical.node import GraphNode, TreeNode
+from ai.search.problem.graphproblem import GraphProblem
+from ai.search.problem.node import GraphNode, TreeNode
 
 
 @pytest.fixture
@@ -45,3 +46,21 @@ def tree():
     root.edges[1][1].add_edge(1, TreeNode(name="Pitesti"))
 
     return root, goal
+
+
+@pytest.fixture
+def graph_problem(graph):
+    start_node, end_node = graph
+    return GraphProblem(start_node, end_node)
+
+
+@pytest.fixture
+def unweighted_graph_problem(unweighted_graph):
+    start_node, end_node = unweighted_graph
+    return GraphProblem(start_node, end_node)
+
+
+@pytest.fixture
+def tree_problem(tree):
+    start_node, end_node = tree
+    return GraphProblem(start_node, end_node)

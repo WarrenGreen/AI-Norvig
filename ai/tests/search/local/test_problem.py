@@ -1,6 +1,6 @@
 import pytest
 
-from ai.search.problem import EightQueens
+from ai.search.problem.eight_queens import EightQueens
 
 
 @pytest.fixture

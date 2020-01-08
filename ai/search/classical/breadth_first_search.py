@@ -1,18 +1,15 @@
-from ai.search.exception import InputException, NoValidPathException
+from ai.search.exception import NoValidPathException
+from ai.search.problem.graphproblem import GraphProblem
 
 
 class BFS:
-    def __init__(self, initial_state, goal_state):
-        self.initial_state = initial_state
-        self.goal_state = goal_state
-        self.queue_1 = [(self.initial_state, [])]
+    def __init__(self, problem: GraphProblem):
+        self.problem = problem
+        self.queue_1 = [(self.problem.start_node, [])]
         self.queue_2 = []
         self.explored = {}
         self.finished_path = None
         self.current_node = None
-
-        if self.initial_state is None or self.goal_state is None:
-            raise InputException("Initial state and goal state cannot be None.")
 
     def search(self):
         while not self.is_finished:
@@ -34,7 +31,7 @@ class BFS:
         self.current_node = node
         new_path = path + [node]
         self.explored[node] = new_path
-        if node == self.goal_state:
+        if self.problem.is_terminal(node):
             self.finished_path = new_path
 
         for edge_cost, child_node in node.edges:
@@ -46,14 +43,13 @@ class BFS:
             self.queue_2 = []
 
 
-def search(initial_state, goal_state):
+def search(problem):
     """
 
     Args:
-        initial_state (GraphNode):
-        goal_state (GraphNode):
+        problem (GraphProblem):
 
     Returns:
         List[GraphNode] - optimal path from initial_state to goal_state
     """
-    return BFS(initial_state, goal_state).search()
+    return BFS(problem).search()

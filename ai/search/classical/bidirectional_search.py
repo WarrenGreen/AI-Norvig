@@ -1,19 +1,22 @@
 from ai.search.classical.breadth_first_search import BFS
 from ai.search.exception import NoValidPathException
+from ai.search.problem.graphproblem import GraphProblem
 
 
-def search(initial_state, goal_state):
+def search(problem):
     """
 
         Args:
-            initial_state (GraphNode):
-            goal_state (GraphNode):
+            problem(GraphProblem): 
 
         Returns:
             List[GraphNode] - optimal path from initial_state to goal_state
         """
-    bfs_forward = BFS(initial_state, goal_state)
-    bfs_backward = BFS(goal_state, initial_state)
+    bfs_forward = BFS(problem)
+    problem_backward = GraphProblem(
+        start_node=problem.goal_node, goal_node=problem.start_node
+    )
+    bfs_backward = BFS(problem_backward)
 
     while not bfs_forward.is_finished and not bfs_backward.is_finished:
         bfs_forward.step()

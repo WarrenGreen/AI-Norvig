@@ -1,4 +1,5 @@
 from ai.search.classical.a_star import search
+from ai.search.problem.graphproblem import GraphProblem
 from examples.util import convert_maze_to_nodes, maze_1
 
 
@@ -10,8 +11,8 @@ def main():
     nodes = convert_maze_to_nodes(maze_1)
     start = nodes[f"({len(maze_1)-1},{0})"]
     end = nodes[f"({0},{len(maze_1[0])-1})"]
-
-    print(search(start, end, manhattan_distance))
+    problem = GraphProblem(start, end)
+    print(search(problem, manhattan_distance))
 
 
 if __name__ == "__main__":

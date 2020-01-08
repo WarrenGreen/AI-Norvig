@@ -1,32 +1,31 @@
 from queue import PriorityQueue
 
-from ai.search.exception import InputException, NoValidPathException
+from ai.search.exception import NoValidPathException
+from ai.search.problem.graphproblem import GraphProblem
 
 
-def search(initial_state, goal_state):
+def search(problem: GraphProblem):
     """
 
     Args:
-        initial_state (GraphNode):
-        goal_state (GraphNode):
+        problem (GraphProblem):
 
     Returns:
         List[GraphNode] - optimal path from initial_state to goal_state
     """
-    if initial_state is None or goal_state is None:
-        raise InputException("Initial state and goal state cannot be None.")
+    current_state = problem.start_node
 
-    explored = {initial_state}
+    explored = {current_state}
     frontier = PriorityQueue()
-    frontier.put((0, initial_state, []))
-    frontier_set = {initial_state: 999999}
+    frontier.put((0, current_state, []))
+    frontier_set = {current_state: 999999}
     while not frontier.empty():
         path_cost, node, path = frontier.get_nowait()
         explored.add(node)
         new_path = path + [node]
-        if node == goal_state:
+        if problem.is_terminal(node):
             return new_path
-        for edge_cost, child_node in node.edges:
+        for edge_cost, child_node in problem.generate_successors(node):
             child_cost = path_cost + edge_cost
             if (child_node not in explored and child_node not in frontier_set) or (
                 child_node in frontier_set and frontier_set[child_node] > child_cost

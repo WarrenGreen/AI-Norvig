@@ -34,6 +34,7 @@ class Chess(Problem):
     BOARD_SIZE = 8
 
     LETTER_TO_NUM_BASE = ord("A") - 1
+    LETTER_RANGE = ["A", "B", "C", "D", "E", "F", "G", "H"]
 
     KNIGHT_MOVES = [
         (-1, 2),
@@ -66,20 +67,22 @@ class Chess(Problem):
                     two_forward_move = f"{loc_letter}{loc_number - 2}"
 
             one_forward_letter, one_forward_number = one_forward_move
-            attack_move_left = f"{chr(ord(one_forward_letter)-1)}{one_forward_number}"
-            attack_move_right = f"{chr(ord(one_forward_letter)+1)}{one_forward_number}"
+            attack_move_left = f"{chr(ord(one_forward_letter) - 1)}{one_forward_number}"
+            attack_move_right = (
+                f"{chr(ord(one_forward_letter) + 1)}{one_forward_number}"
+            )
             if attack_move_left in state:
-                moves.add(attack_move_left)
+                yield attack_move_left
 
             if attack_move_right in state:
-                moves.add(attack_move_right)
+                yield attack_move_right
 
             if one_forward_move not in state:
-                moves.add(one_forward_move)
+                yield one_forward_move
                 if two_forward_move and two_forward_move not in state:
-                    moves.add(two_forward_move)
+                    yield two_forward_move
         elif piece_type == Chess.ROOK:
-            moves.update(self.adjacent_moves(state, piece_location))
+            moves.update(self._generate_adjacent_moves(state, piece_location))
         elif piece_type == Chess.KING:
             for i in range(-1, 2):
                 for j in range(-1, 2):
@@ -94,12 +97,14 @@ class Chess(Problem):
                         and 0 < move_number <= Chess.BOARD_SIZE
                         and not self.in_check(move)
                     ):
-                        moves.add(move)
+                        yield move
         elif piece_type == Chess.BISHOP:
-            moves.update(self.diagonal_moves(state, piece_location))
+            for move in self._generate_diagonal_moves(state, piece_location):
+                yield move
         elif piece_type == Chess.QUEEN:
-            moves.update(self.adjacent_moves(state, piece_location))
-            moves.update(self.diagonal_moves(state, piece_location))
+            moves.update(self._generate_adjacent_moves(state, piece_location))
+            for move in self._generate_diagonal_moves(state, piece_location):
+                yield move
         elif piece_type == Chess.KNIGHT:
             for i, j in Chess.KNIGHT_MOVES:
                 move_letter = chr(ord(loc_letter) + i)
@@ -110,18 +115,10 @@ class Chess(Problem):
                     0 < move_letter_base <= Chess.BOARD_SIZE
                     and 0 < move_number <= Chess.BOARD_SIZE
                 ):
-                    moves.add(move)
+                    yield move
 
-        for move in moves:
-            yield move
-
-    def in_check(self, state, player):
-        # TODO
-        return False
-
-    def diagonal_moves(self, state, piece_location):
+    def _generate_diagonal_moves(self, state, piece_location):
         loc_letter, loc_number = piece_location
-        moves = set()
         for i, j in [(-1, -1), (1, 1), (-1, 1), (1, -1)]:
             move_letter = chr(ord(loc_letter) + i)
             move_letter_base = ord(move_letter) - Chess.LETTER_TO_NUM_BASE
@@ -131,25 +128,23 @@ class Chess(Problem):
                 0 < move_letter_base <= Chess.BOARD_SIZE
                 and 0 < move_number <= Chess.BOARD_SIZE
             ):
-                moves.add(move)
+                yield move
                 if move in state:
                     break
-        return moves
 
-    def adjacent_moves(self, state, piece_location):
+    def _generate_adjacent_moves(self, state, piece_location):
         loc_letter, loc_number = piece_location
-        moves = set()
         # rows
         row = loc_number + 1
         while row <= Chess.BOARD_SIZE:
-            moves.add(f"{loc_letter}{row}")
+            yield f"{loc_letter}{row}"
             if f"{loc_letter}{row}" in state:
                 break
             row += 1
 
         row = loc_number - 1
         while row > 0:
-            moves.add(f"{loc_letter}{row}")
+            yield f"{loc_letter}{row}"
             if f"{loc_letter}{row}" in state:
                 break
             row -= 1
@@ -158,7 +153,7 @@ class Chess(Problem):
         col = 1
         while col <= Chess.BOARD_SIZE:
             move = f"{chr(ord(loc_letter) + col)}{loc_number}"
-            moves.add(move)
+            yield move
             if move in state:
                 break
             col += 1
@@ -166,21 +161,61 @@ class Chess(Problem):
         col = -1
         while ord(loc_letter) + col - Chess.LETTER_TO_NUM_BASE > 0:
             move = f"{chr(ord(loc_letter) + col)}{loc_number}"
-            moves.add(move)
+            yield move
             if move in state:
                 break
             col -= 1
 
-        return moves
+    def _generate_player_successors(self, state, player):
+        for piece_location, piece in state:
+            piece_player, piece_type = piece
+            if piece_player == player:
+                for move in self._generate_piece_successors(state, piece_location):
+                    yield move, piece
 
     def generate_successors(self, state):
-        pass
+        for move_loc, piece in self._generate_player_successors(
+            state, state[Chess.TURN]
+        ):
+            successor = self._move(state, move_loc, piece)
+            if not self._in_check(successor, state[Chess.TURN]):
+                yield successor
+
+    def _move(self, state, move_loc, piece):
+        for board_loc, board_piece in state:
+            if board_piece == piece:
+                state.pop(board_loc)
+                break
+
+        state[move_loc] = piece
+        return state
+
+    def _in_check(self, state, player):
+        king_location = self._piece_lookup(state, f"{player}{Chess.KING}")
+        for potential_opposing_location, _ in self._generate_player_successors(
+            state, self._opposing_player(player)
+        ):
+            if potential_opposing_location == king_location:
+                return True
+        return False
 
     def get_value(self, state):
+        # TODO
         pass
 
     def is_terminal(self, state):
-        pass
+        # Checkmate or Stalemate
+        valid_moves_exist = False
+        for _ in self.generate_successors(state):
+            valid_moves_exist = True
+            break
+        return not valid_moves_exist
+
+    def _opposing_player(self, player):
+        if player == Chess.BLACK:
+            return Chess.WHITE
+        else:
+            return Chess.BLACK
 
     def _piece_lookup(self, state, search_piece):
         for location, piece in state.items():
@@ -188,4 +223,27 @@ class Chess(Problem):
                 return location
 
     def create_start(self):
-        pass
+        board = {
+            "A8": f"{Chess.BLACK}{Chess.ROOK}",
+            "B8": f"{Chess.BLACK}{Chess.KNIGHT}",
+            "C8": f"{Chess.BLACK}{Chess.BISHOP}",
+            "D8": f"{Chess.BLACK}{Chess.QUEEN}",
+            "E8": f"{Chess.BLACK}{Chess.KING}",
+            "F8": f"{Chess.BLACK}{Chess.BISHOP}",
+            "G8": f"{Chess.BLACK}{Chess.KNIGHT}",
+            "H8": f"{Chess.BLACK}{Chess.ROOK}",
+            "A1": f"{Chess.WHITE}{Chess.ROOK}",
+            "B1": f"{Chess.WHITE}{Chess.KNIGHT}",
+            "C1": f"{Chess.WHITE}{Chess.BISHOP}",
+            "D1": f"{Chess.WHITE}{Chess.QUEEN}",
+            "E1": f"{Chess.WHITE}{Chess.KING}",
+            "F1": f"{Chess.WHITE}{Chess.BISHOP}",
+            "G1": f"{Chess.WHITE}{Chess.KNIGHT}",
+            "H1": f"{Chess.WHITE}{Chess.ROOK}",
+        }
+
+        for board_letter in Chess.LETTER_RANGE:
+            board[f"{board_letter}2"] = f"{Chess.WHITE}{Chess.PAWN}"
+            board[f"{board_letter}7"] = f"{Chess.BLACK}{Chess.PAWN}"
+
+        return board

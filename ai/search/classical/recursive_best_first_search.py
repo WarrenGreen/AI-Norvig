@@ -1,28 +1,24 @@
 from ai.search.exception import (
     NoValidPathException,
     CostLimitReachedException,
-    InputException,
 )
 
 
 # TODO: Doesn't work yet
-def search(initial_state, goal_state, heuristic_fn):
+def search(problem, heuristic_fn):
     """
 
     Args:
-        initial_state (GraphNode):
-        goal_state (GraphNode):
+        problem (GraphProblem):
         heuristic_fn (Callable[GraphNode, GraphNode]): function to estimate cost between parameter
                 node and goal state
 
     Returns:
         List[GraphNode] - optimal path from initial_state to goal_state
     """
-    if initial_state is None or goal_state is None:
-        raise InputException("Initial state and goal state cannot be None.")
-    initial_state.f = 0 + heuristic_fn(initial_state, goal_state)
-    initial_state.g = 0
-    _search(initial_state, goal_state, [], 9999, heuristic_fn)
+    problem.start_node.f = 0 + heuristic_fn(problem.start_node, problem.goal_node)
+    problem.start_node.g = 0
+    _search(problem.start_node, problem.goal_node, [], 9999, heuristic_fn)
 
 
 def _search(initial_state, goal_state, path, f_limit, heuristic_fn):
