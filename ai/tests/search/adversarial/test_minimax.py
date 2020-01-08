@@ -14,7 +14,7 @@ def test_minimax():
             problem = problem_o
 
         x_turn = not x_turn
-        new_state, new_value = search(problem, state, )
+        new_state, new_value = search(problem, state)
         state = new_state
 
     assert new_value == 0

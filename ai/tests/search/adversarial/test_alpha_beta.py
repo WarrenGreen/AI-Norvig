@@ -2,7 +2,7 @@ from ai.search.adversarial.alpha_beta import search
 from ai.search.problem.tictactoe import TicTacToe
 
 
-def test_minimax():
+def test_alpha_beta():
     problem_o = TicTacToe(player="O")
     problem_x = TicTacToe(player="X")
     state = problem_x.create_start()
@@ -14,7 +14,7 @@ def test_minimax():
             problem = problem_o
 
         x_turn = not x_turn
-        new_state, new_value = search(problem, state, )
+        new_state, new_value = search(problem, state)
         state = new_state
 
     assert new_value == 0

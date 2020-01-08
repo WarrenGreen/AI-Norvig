@@ -15,7 +15,7 @@ def main():
             problem = problem_o
 
         x_turn = not x_turn
-        new_state, new_value = search(problem, state,)
+        new_state, new_value = search(problem, state)
         state = new_state
         print(problem.format_str(new_state), f"value for player x: {new_value}\n")
 
