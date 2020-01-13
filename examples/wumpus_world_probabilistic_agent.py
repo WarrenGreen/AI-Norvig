@@ -60,13 +60,22 @@ def main(config):
                 else:
                     false_wumpus_probability += get_wumpus_probability(problem, world)
 
-            norm_true_pit_probability = true_pit_probability / (true_pit_probability + false_pit_probability)
-            norm_false_pit_probability = false_pit_probability / (true_pit_probability + false_pit_probability)
+            norm_true_pit_probability = true_pit_probability / (
+                true_pit_probability + false_pit_probability
+            )
+            norm_false_pit_probability = false_pit_probability / (
+                true_pit_probability + false_pit_probability
+            )
             norm_true_wumpus_probability = true_wumpus_probability / (
-                        true_wumpus_probability + false_wumpus_probability)
+                true_wumpus_probability + false_wumpus_probability
+            )
             norm_false_wumpus_probability = false_wumpus_probability / (
-                        true_wumpus_probability + false_wumpus_probability)
-            probabilities[node] = (norm_true_pit_probability*norm_true_wumpus_probability, norm_false_pit_probability*norm_false_wumpus_probability)
+                true_wumpus_probability + false_wumpus_probability
+            )
+            probabilities[node] = (
+                norm_true_pit_probability * norm_true_wumpus_probability,
+                norm_false_pit_probability * norm_false_wumpus_probability,
+            )
 
         max_prob_safe = None
         max_successor = None
@@ -117,9 +126,13 @@ def generate_possible_permutations(problem, explored, frontier):
         breeze = False
         stench = False
         for adjacent in problem.generate_successors(node):
-            if adjacent in explored and WumpusWorld.BREEZE in problem.get_value(adjacent):
+            if adjacent in explored and WumpusWorld.BREEZE in problem.get_value(
+                adjacent
+            ):
                 breeze = True
-            if adjacent in explored and WumpusWorld.STENCH in problem.get_value(adjacent):
+            if adjacent in explored and WumpusWorld.STENCH in problem.get_value(
+                adjacent
+            ):
                 stench = True
             if breeze and stench:
                 break
@@ -149,7 +162,11 @@ def verify_world(problem, explored, frontier):
         if WumpusWorld.BREEZE in problem.get_value(explored_node):
             valid = False
             for adjacent in problem.generate_successors(explored_node):
-                if adjacent in frontier and frontier[adjacent] is not None and WumpusWorld.PIT in frontier[adjacent]:
+                if (
+                    adjacent in frontier
+                    and frontier[adjacent] is not None
+                    and WumpusWorld.PIT in frontier[adjacent]
+                ):
                     valid = True
             if not valid:
                 return False
@@ -157,7 +174,11 @@ def verify_world(problem, explored, frontier):
         if WumpusWorld.STENCH in problem.get_value(explored_node):
             valid = False
             for adjacent in problem.generate_successors(explored_node):
-                if adjacent in frontier and frontier[adjacent] is not None and WumpusWorld.WUMPUS in frontier[adjacent]:
+                if (
+                    adjacent in frontier
+                    and frontier[adjacent] is not None
+                    and WumpusWorld.WUMPUS in frontier[adjacent]
+                ):
                     valid = True
             if not valid:
                 return False
@@ -172,13 +193,11 @@ def strip_duplicates(worlds):
     return list(stripped_worlds.values())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Run probabilistic agent on wumpus world."
     )
     parser.add_argument(
-        "--random_world",
-        action="store_true",
-        help="Generate a random world.",
+        "--random_world", action="store_true", help="Generate a random world.",
     )
     main(parser.parse_args())

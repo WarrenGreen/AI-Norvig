@@ -29,8 +29,8 @@ class WumpusWorld(Problem):
         positions = defaultdict(list)
         generated = 0
         while generated < num_pits:
-            row = randint(0, size-1)
-            col = randint(0, size-1)
+            row = randint(0, size - 1)
+            col = randint(0, size - 1)
             if row == 0 and col == 0:
                 # Don't place pit in starting location
                 continue
@@ -43,8 +43,8 @@ class WumpusWorld(Problem):
 
         generated = 0
         while generated < 1:
-            row = randint(0, size-1)
-            col = randint(0, size-1)
+            row = randint(0, size - 1)
+            col = randint(0, size - 1)
             if row == 0 and col == 0:
                 # Don't place wumpus in starting location
                 continue
@@ -56,9 +56,12 @@ class WumpusWorld(Problem):
 
         generated = 0
         while generated < 1:
-            row = randint(0, size-1)
-            col = randint(0, size-1)
-            if WumpusWorld.WUMPUS in positions[f"{row},{col}"] or WumpusWorld.PIT in positions[f"{row},{col}"]:
+            row = randint(0, size - 1)
+            col = randint(0, size - 1)
+            if (
+                WumpusWorld.WUMPUS in positions[f"{row},{col}"]
+                or WumpusWorld.PIT in positions[f"{row},{col}"]
+            ):
                 # Don't place gold in pit or with wumpus
                 continue
             positions[f"{row},{col}"].append(WumpusWorld.GOLD)
@@ -97,7 +100,7 @@ class WumpusWorld(Problem):
     @staticmethod
     def _generate_successors(state, size):
         row, col = WumpusWorld.parse_state(state)
-        for row_delta, col_delta in [(-1,0), (1,0), (0,1), (0,-1)]:
+        for row_delta, col_delta in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
             if row_delta == 0 and col_delta == 0:
                 continue
             if size <= row + row_delta or row + row_delta < 0:
@@ -130,8 +133,10 @@ class WumpusWorld(Problem):
         for row in range(self.size):
             col_str = ""
             for col in range(self.size):
-                if row == 0 and col ==0:
-                    col_str += "| {0:20} ".format(str(self.positions[f"{row},{col}"]+['start']))
+                if row == 0 and col == 0:
+                    col_str += "| {0:20} ".format(
+                        str(self.positions[f"{row},{col}"] + ["start"])
+                    )
                 else:
                     col_str += "| {0:20} ".format(str(self.positions[f"{row},{col}"]))
             col_str += " |"
