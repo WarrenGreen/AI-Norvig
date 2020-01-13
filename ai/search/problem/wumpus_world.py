@@ -68,6 +68,12 @@ class WumpusWorld(Problem):
 
     @classmethod
     def default_world(cls):
+        """
+        | []                   | ['breeze', 'stench'] | ['wumpus']            |
+        | ['breeze']           | ['pit']              | ['breeze', 'stench']  |
+        | []                   | ['breeze']           | ['gold']              |
+
+        """
         size = 3
         positions = defaultdict(list)
         positions["1,1"] = [WumpusWorld.PIT]
@@ -124,7 +130,10 @@ class WumpusWorld(Problem):
         for row in range(self.size):
             col_str = ""
             for col in range(self.size):
-                col_str += "| {0:20} ".format(str(self.positions[f"{row},{col}"]))
+                if row == 0 and col ==0:
+                    col_str += "| {0:20} ".format(str(self.positions[f"{row},{col}"]+['start']))
+                else:
+                    col_str += "| {0:20} ".format(str(self.positions[f"{row},{col}"]))
             col_str += " |"
             print(col_str)
 

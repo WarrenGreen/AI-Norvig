@@ -1,3 +1,4 @@
+import argparse
 from collections import defaultdict
 from copy import deepcopy
 
@@ -12,11 +13,25 @@ next move given likelihood of safety.
     
     where `P(b | known, P(successor_node), frontier)` is 1 when P(successor_node) has
     a pit and 0 otherwise.
+    
+Default state operates on the default Wumpus World giving the below results:
+    Initial Map
+    | ['start']                   | ['breeze', 'stench'] | ['wumpus']            |
+    | ['breeze']           | ['pit']              | ['breeze', 'stench']  |
+    | []                   | ['breeze']           | ['gold']              |
+    
+    Path Followed
+    | X                    | X                    | ['wumpus']            |
+    | X                    | ['pit']              | ['breeze', 'stench']  |
+    | X                    | X                    | X                     |
 """
 
 
-def main():
-    problem = WumpusWorld.default_world()
+def main(config):
+    if config.random_world:
+        problem = WumpusWorld.random_world()
+    else:
+        problem = WumpusWorld.default_world()
     current_state = "0,0"
 
     explored = {current_state}
@@ -158,4 +173,12 @@ def strip_duplicates(worlds):
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(
+        description="Run probabilistic agent on wumpus world."
+    )
+    parser.add_argument(
+        "--random_world",
+        action="store_true",
+        help="Generate a random world.",
+    )
+    main(parser.parse_args())
