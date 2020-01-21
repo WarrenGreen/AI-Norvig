@@ -1,7 +1,7 @@
 import argparse
 
-from ai.search.adversarial.minimax import search as search_minimax
 from ai.search.adversarial.alpha_beta import search as search_alpha_beta
+from ai.search.adversarial.minimax import search as search_minimax
 from ai.search.problem.chess import Chess
 
 
