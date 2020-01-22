@@ -1,22 +1,7 @@
 from collections import defaultdict
-from random import choice
 
+from ai.learning.reinforcement.policy.maximum_policy import MaximumPolicy
 from ai.problem.grid import GridProblem
-
-
-class MaximumPolicy:
-    @staticmethod
-    def get_next_move(successors):
-        max_utility = -99999999
-        for _, utility in successors:
-            max_utility = max(utility, max_utility)
-
-        max_sucessors = []
-        for successor, utility in successors:
-            if utility == max_utility:
-                max_sucessors.append(successor)
-
-        return choice(max_sucessors)
 
 
 def train(
@@ -47,7 +32,6 @@ def train(
             value += sum / count
             successors = []
             for successor in problem.generate_successors(current_state):
-                successor = (successor.row, successor.col)
                 sum, count = utility_table[successor]
                 avg = sum / count if count > 0 else 0
                 successors.append((successor, avg))

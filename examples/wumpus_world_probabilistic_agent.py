@@ -42,8 +42,7 @@ def main(config):
 
     path = [current_state]
     while not problem.is_terminal(current_state):
-        for successor_tuple in problem.generate_successors(current_state):
-            successor = (successor_tuple.row, successor_tuple.col)
+        for successor in problem.generate_successors(current_state):
             if successor not in explored:
                 frontier[successor] = None
 
@@ -131,8 +130,7 @@ def generate_possible_permutations(problem, explored, frontier):
             continue
         breeze = False
         stench = False
-        for adjacent_tuple in problem.generate_successors(node):
-            adjacent = (adjacent_tuple.row, adjacent_tuple.col)
+        for adjacent in problem.generate_successors(node):
             if adjacent in explored and problem.get_value(adjacent).breeze:
                 breeze = True
             if adjacent in explored and problem.get_value(adjacent).stench:
@@ -164,8 +162,7 @@ def verify_world(problem, explored, frontier):
     for explored_node in explored:
         if problem.get_value(explored_node).breeze:
             valid = False
-            for adjacent_tuple in problem.generate_successors(explored_node):
-                adjacent = (adjacent_tuple.row, adjacent_tuple.col)
+            for adjacent in problem.generate_successors(explored_node):
                 if (
                     adjacent in frontier
                     and frontier[adjacent] is not None
@@ -177,8 +174,7 @@ def verify_world(problem, explored, frontier):
 
         if problem.get_value(explored_node).stench:
             valid = False
-            for adjacent_tuple in problem.generate_successors(explored_node):
-                adjacent = (adjacent_tuple.row, adjacent_tuple.col)
+            for adjacent in problem.generate_successors(explored_node):
                 if (
                     adjacent in frontier
                     and frontier[adjacent] is not None
