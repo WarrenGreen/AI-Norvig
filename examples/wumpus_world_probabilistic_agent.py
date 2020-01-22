@@ -12,7 +12,7 @@ next move given likelihood of safety.
         αP(successor_node) * SUM(P(b | known, P(successor_node), frontier)*P(frontier))`
     
     where `P(b | known, P(successor_node), frontier)` is 1 when P(successor_node) has
-    a pit and 0 otherwise.
+    a pit and 0 otherwise; α is a normalizing factor.
     
 Default state operates on the default Wumpus World giving the below results:
     Initial Map
