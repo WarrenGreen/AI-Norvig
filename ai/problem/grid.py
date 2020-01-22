@@ -2,7 +2,7 @@ from collections import namedtuple
 from typing import Tuple
 
 from ai.search.exception import InputException
-from ai.problem import Problem
+from ai.problem.problem import Problem
 
 
 GridLocation = namedtuple(
@@ -45,7 +45,7 @@ class GridProblem(Problem):
         for row_index in range(3):
             row = []
             for col_index in range(4):
-                row.append(GridLocation(row_index, col_index, -0.4))
+                row.append(GridLocation(row_index, col_index, -0.04))
             grid.append(row)
 
         grid[0][3] = grid[0][3]._replace(value=1.0, terminal=True)
@@ -58,9 +58,7 @@ class GridProblem(Problem):
 
     def generate_successors(self, state: Tuple[int, int]):
         row, col = state
-        for row_delta, col_delta in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
-            if row_delta == 0 and col_delta == 0:
-                continue
+        for row_delta, col_delta in [(-1, 0), (1, 0), (0, 1), (0, -1), (0, 0)]:
             if self.row_size <= row + row_delta or row + row_delta < 0:
                 continue
             if self.col_size <= col + col_delta or col + col_delta < 0:
