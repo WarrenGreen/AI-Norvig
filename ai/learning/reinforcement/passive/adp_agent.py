@@ -5,14 +5,18 @@ from ai.problem.grid import GridProblem
 
 
 def train(
-    problem: GridProblem = GridProblem.create_start(), policy=MaximumPolicy, epochs=100, gamma=1.0, print_logs=True
+    problem: GridProblem = GridProblem.create_start(),
+    policy=MaximumPolicy,
+    epochs=100,
+    gamma=1.0,
+    print_logs=True,
 ):
     rewards = {}
     utilities = {}
     transition_frequency = defaultdict(lambda: defaultdict(lambda: 0))  # N[s`|s,a]
     action_frequency = defaultdict(lambda: 0)  # N[s,a]
 
-    for epoch in range(1, epochs+1):
+    for epoch in range(1, epochs + 1):
         previous_state, applied_action = None, None
         current_state = problem.start_location
         path = []
@@ -29,8 +33,12 @@ def train(
             for state in transition_frequency.keys():
                 summed_previous_state_utility = 0.0
                 for state_action, frequency in transition_frequency[state].items():
-                    summed_previous_state_utility += (frequency / action_frequency[state_action]) * utilities[state]
-                new_utilities[state] = min(max(rewards[state] + gamma * summed_previous_state_utility, -10), 10)  # Bound utility estimation to prevent overflow
+                    summed_previous_state_utility += (
+                        frequency / action_frequency[state_action]
+                    ) * utilities[state]
+                new_utilities[state] = min(
+                    max(rewards[state] + gamma * summed_previous_state_utility, -10), 10
+                )  # Bound utility estimation to prevent overflow
             utilities = new_utilities
 
             if problem.is_terminal(current_state):
@@ -41,7 +49,7 @@ def train(
             for action in problem.generate_actions(current_state):
                 row_delta, col_delta = action
                 row, col = current_state
-                action_state = row+row_delta, col+col_delta
+                action_state = row + row_delta, col + col_delta
                 utility = 0.0
                 if action_state in utilities:
                     utility = utilities[action_state]

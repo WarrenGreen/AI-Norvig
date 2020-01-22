@@ -5,7 +5,10 @@ from ai.problem.grid import GridProblem
 
 
 def train(
-    problem: GridProblem = GridProblem.create_start(), policy=MaximumPolicy, epochs=15
+    problem: GridProblem = GridProblem.create_start(),
+    policy=MaximumPolicy,
+    epochs=15,
+    print_logs=True,
 ):
     """
     Yields the following result using the default configs.
@@ -21,7 +24,7 @@ def train(
     |          X |      -0.04 |      -0.04 |      -0.04  |
     """
     utility_table = defaultdict(lambda: [0.0, 0])
-    for _ in range(epochs):
+    for epoch in range(1, epochs + 1):
         current_state = problem.start_location
         value = 0.0
         path = [current_state]
@@ -39,5 +42,11 @@ def train(
             path.append(current_state)
         utility_table[current_state][0] += problem.get_value(current_state)
         utility_table[current_state][1] += 1
+        if print_logs:
+            print(f"Epoch {epoch}")
+            problem.visualize(path)
+            print()
+            print()
+            print()
 
-    problem.visualize(path)
+    return utility_table

@@ -9,7 +9,7 @@ class GridLeakyTransitionModelProblem(GridProblem):
         GridProblem.DOWN: [GridProblem.LEFT, GridProblem.RIGHT],
         GridProblem.LEFT: [GridProblem.UP, GridProblem.DOWN],
         GridProblem.RIGHT: [GridProblem.UP, GridProblem.DOWN],
-        GridProblem.STAY: [GridProblem.UP, GridProblem.DOWN]
+        GridProblem.STAY: [GridProblem.UP, GridProblem.DOWN],
     }
 
     def apply_action(self, state, action):

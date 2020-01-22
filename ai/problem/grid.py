@@ -79,9 +79,13 @@ class GridProblem(Problem):
         return True
 
     def generate_actions(self, state):
-        for row_delta, col_delta in [GridProblem.UP, GridProblem.LEFT,
-                                     GridProblem.RIGHT, GridProblem.DOWN,
-                                     GridProblem.STAY]:
+        for row_delta, col_delta in [
+            GridProblem.UP,
+            GridProblem.LEFT,
+            GridProblem.RIGHT,
+            GridProblem.DOWN,
+            GridProblem.STAY,
+        ]:
             if self.valid_action(state, (row_delta, col_delta)):
                 yield (row_delta, col_delta)
 
