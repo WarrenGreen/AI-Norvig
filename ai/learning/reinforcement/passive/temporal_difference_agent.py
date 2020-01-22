@@ -1,5 +1,3 @@
-from collections import defaultdict
-
 from ai.learning.reinforcement.policy.maximum_policy import MaximumPolicy
 from ai.problem.grid import GridProblem
 
@@ -34,7 +32,13 @@ def train(
                 utilities[current_state] = problem.get_value(current_state)
                 rewards[current_state] = problem.get_value(current_state)
 
-            utilities[previous_state] += rewards[previous_state] + learning_rate_fn(epoch) * (previous_reward + gamma * utilities[current_state] - utilities[previous_state])
+            utilities[previous_state] += rewards[previous_state] + learning_rate_fn(
+                epoch
+            ) * (
+                previous_reward
+                + gamma * utilities[current_state]
+                - utilities[previous_state]
+            )
 
             if problem.is_terminal(current_state):
                 break

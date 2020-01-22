@@ -4,7 +4,7 @@ from random import choice, random
 class MaximumPolicyRandomExploration:
     @staticmethod
     def get_next_move(actions, epoch):
-        if random() <= 1.0/epoch:
+        if random() <= 1.0 / epoch:
             return choice(actions)[0]
 
         max_utility = None
