@@ -1,9 +1,12 @@
-from random import choice
+from random import choice, random
 
 
-class MaximumPolicy:
+class MaximumPolicyRandomExploration:
     @staticmethod
     def get_next_move(actions, epoch):
+        if random() <= 1.0/epoch:
+            return choice(actions)[0]
+
         max_utility = None
         for _, utility in actions:
             if max_utility is None:

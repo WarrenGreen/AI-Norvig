@@ -55,7 +55,7 @@ def train(
                     utility = utilities[action_state]
                 possible_actions.append((action, utility))
 
-            previous_action = policy.get_next_move(possible_actions)
+            previous_action = policy.get_next_move(possible_actions, epoch)
             current_state = problem.apply_action(current_state, previous_action)
 
         if print_logs:
