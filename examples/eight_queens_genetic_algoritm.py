@@ -6,6 +6,7 @@ from ai.search.problem.eight_queens import EightQueens
 
 def main(config):
     problem = EightQueens(size=config.size)
+
     def fitness(state):
         return problem.get_value(state)
 

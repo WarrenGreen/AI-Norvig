@@ -16,7 +16,7 @@ next move given likelihood of safety.
     
 Default state operates on the default Wumpus World giving the below results:
     Initial Map
-    | ['start']                   | ['breeze', 'stench'] | ['wumpus']            |
+    | ['start']            | ['breeze', 'stench'] | ['wumpus']            |
     | ['breeze']           | ['pit']              | ['breeze', 'stench']  |
     | []                   | ['breeze']           | ['gold']              |
     
@@ -26,36 +26,42 @@ Default state operates on the default Wumpus World giving the below results:
     | X                    | X                    | X                     |
 """
 
+WUMPUS = "wumpus"
+PIT = "pit"
+
 
 def main(config):
     if config.random_world:
         problem = WumpusWorld.random_world()
     else:
         problem = WumpusWorld.default_world()
-    current_state = "0,0"
+    current_state = problem.start_location
 
     explored = {current_state}
     frontier = {}
 
     path = [current_state]
     while not problem.is_terminal(current_state):
-        for successor in problem.generate_successors(current_state):
+        for successor_tuple in problem.generate_successors(current_state):
+            successor = (successor_tuple.row, successor_tuple.col)
             if successor not in explored:
                 frontier[successor] = None
 
-        worlds = generate_possible_permutations(problem, explored, frontier)
-        worlds = strip_duplicates(worlds)
-        probabilities = defaultdict(lambda: (0, 0))
+        worlds_a = generate_possible_permutations(problem, explored, frontier)
+        worlds = strip_duplicates(worlds_a)
+        if len(worlds) == 0:
+            break
+        probabilities = defaultdict(lambda: (0.0, 0.0))
         for node in frontier.keys():
             true_pit_probability, false_pit_probability = 0.0, 0.0
             true_wumpus_probability, false_wumpus_probability = 0.0, 0.0
             for world in worlds:
-                if WumpusWorld.PIT in world[node]:
+                if PIT in world[node]:
                     true_pit_probability += get_pit_probability(problem, world)
                 else:
                     false_pit_probability += get_pit_probability(problem, world)
 
-                if WumpusWorld.WUMPUS in world[node]:
+                if WUMPUS in world[node]:
                     true_wumpus_probability += get_wumpus_probability(problem, world)
                 else:
                     false_wumpus_probability += get_wumpus_probability(problem, world)
@@ -98,7 +104,7 @@ def get_pit_probability(problem, frontier):
     node_pit_probability = 1
 
     for other_node in frontier:
-        if WumpusWorld.PIT in frontier[other_node]:
+        if PIT in frontier[other_node]:
             node_pit_probability *= problem.pit_probability
         else:
             node_pit_probability *= 1 - problem.pit_probability
@@ -110,7 +116,7 @@ def get_wumpus_probability(problem, frontier):
     node_wumpus_probability = 1
 
     for other_node in frontier:
-        if WumpusWorld.WUMPUS in frontier[other_node]:
+        if WUMPUS in frontier[other_node]:
             node_wumpus_probability *= problem.wumpus_probability
         else:
             node_wumpus_probability *= 1 - problem.wumpus_probability
@@ -125,14 +131,11 @@ def generate_possible_permutations(problem, explored, frontier):
             continue
         breeze = False
         stench = False
-        for adjacent in problem.generate_successors(node):
-            if adjacent in explored and WumpusWorld.BREEZE in problem.get_value(
-                adjacent
-            ):
+        for adjacent_tuple in problem.generate_successors(node):
+            adjacent = (adjacent_tuple.row, adjacent_tuple.col)
+            if adjacent in explored and problem.get_value(adjacent).breeze:
                 breeze = True
-            if adjacent in explored and WumpusWorld.STENCH in problem.get_value(
-                adjacent
-            ):
+            if adjacent in explored and problem.get_value(adjacent).stench:
                 stench = True
             if breeze and stench:
                 break
@@ -141,11 +144,11 @@ def generate_possible_permutations(problem, explored, frontier):
         new_frontier[node] = []
         worlds += generate_possible_permutations(problem, explored, new_frontier)
         if breeze:
-            new_frontier[node] = [WumpusWorld.PIT]
+            new_frontier[node] = {PIT: True}
             worlds += generate_possible_permutations(problem, explored, new_frontier)
 
         if stench:
-            new_frontier[node] = [WumpusWorld.WUMPUS]
+            new_frontier[node] = {WUMPUS: True}
             worlds += generate_possible_permutations(problem, explored, new_frontier)
 
     if len(worlds) == 0:
@@ -159,25 +162,27 @@ def generate_possible_permutations(problem, explored, frontier):
 
 def verify_world(problem, explored, frontier):
     for explored_node in explored:
-        if WumpusWorld.BREEZE in problem.get_value(explored_node):
+        if problem.get_value(explored_node).breeze:
             valid = False
-            for adjacent in problem.generate_successors(explored_node):
+            for adjacent_tuple in problem.generate_successors(explored_node):
+                adjacent = (adjacent_tuple.row, adjacent_tuple.col)
                 if (
                     adjacent in frontier
                     and frontier[adjacent] is not None
-                    and WumpusWorld.PIT in frontier[adjacent]
+                    and PIT in frontier[adjacent]
                 ):
                     valid = True
             if not valid:
                 return False
 
-        if WumpusWorld.STENCH in problem.get_value(explored_node):
+        if problem.get_value(explored_node).stench:
             valid = False
-            for adjacent in problem.generate_successors(explored_node):
+            for adjacent_tuple in problem.generate_successors(explored_node):
+                adjacent = (adjacent_tuple.row, adjacent_tuple.col)
                 if (
                     adjacent in frontier
                     and frontier[adjacent] is not None
-                    and WumpusWorld.WUMPUS in frontier[adjacent]
+                    and WUMPUS in frontier[adjacent]
                 ):
                     valid = True
             if not valid:

@@ -5,7 +5,6 @@ from numpy.random import choice
 
 def search(population, fitness_fn, fitness_cutoff=1.0, mutation_rate=0.01):
     """
-
     Args:
         fitness_fn (Callable[List[int], float]): function to evaluate a state. Fitness should
             be a float in range [0, 1]
@@ -39,7 +38,7 @@ def search(population, fitness_fn, fitness_cutoff=1.0, mutation_rate=0.01):
 
 
 def mutate(state):
-    index = randint(0, len(state)-1)
+    index = randint(0, len(state) - 1)
     if random() > 0.50:
         state[index] += 1
     else:
@@ -76,7 +75,9 @@ def random_proportional_choice(population, fitness_fn, number_of_choices):
     for index in range(len(fitnesses)):
         fitnesses[index] /= total_fitness
 
-    picks = choice(list(range(len(population))), number_of_choices, p=fitnesses, replace=False)
+    picks = choice(
+        list(range(len(population))), number_of_choices, p=fitnesses, replace=False
+    )
 
     pop_picks = []
     for index in picks:

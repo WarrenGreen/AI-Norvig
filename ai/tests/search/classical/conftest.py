@@ -1,6 +1,6 @@
 import pytest
 
-from ai.search.problem.graphproblem import GraphProblem
+from ai.search.problem.graph import GraphProblem
 from ai.search.problem.node import GraphNode, TreeNode
 
 
