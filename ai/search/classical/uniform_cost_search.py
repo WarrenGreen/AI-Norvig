@@ -1,7 +1,7 @@
 from queue import PriorityQueue
 
 from ai.search.exception import NoValidPathException
-from ai.search.problem.graph import GraphProblem
+from ai.problem import GraphProblem
 
 
 def search(problem: GraphProblem):

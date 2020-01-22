@@ -4,7 +4,7 @@ from ai.search.local.hill_climbing import search as hill_climb
 from ai.search.local.random_restart_hill_climbing import (
     search as random_restart_hill_climbing,
 )
-from ai.search.problem.eight_queens import EightQueens
+from ai.problem.eight_queens import EightQueens
 
 
 def main(config):

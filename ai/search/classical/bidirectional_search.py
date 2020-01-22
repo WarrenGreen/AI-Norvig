@@ -1,6 +1,6 @@
 from ai.search.classical.breadth_first_search import BFS
 from ai.search.exception import NoValidPathException
-from ai.search.problem.graph import GraphProblem
+from ai.problem import GraphProblem
 
 
 def search(problem):

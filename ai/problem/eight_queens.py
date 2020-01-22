@@ -2,7 +2,7 @@ from collections import defaultdict
 from copy import copy
 from random import randint
 
-from ai.search.problem.problem import Problem
+from ai.problem import Problem
 
 
 class EightQueens(Problem):

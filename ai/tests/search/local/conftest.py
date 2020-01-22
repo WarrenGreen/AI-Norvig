@@ -2,7 +2,7 @@ import math
 
 import pytest
 
-from ai.search.problem.problem import Problem
+from ai.problem import Problem
 
 
 @pytest.fixture

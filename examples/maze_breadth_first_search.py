@@ -1,5 +1,5 @@
 from ai.search.classical.breadth_first_search import search
-from ai.search.problem.graph import GraphProblem
+from ai.problem import GraphProblem
 from examples.util import convert_maze_to_nodes, maze_1
 
 

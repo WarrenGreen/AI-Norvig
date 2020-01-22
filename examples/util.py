@@ -1,5 +1,5 @@
 from ai.search.exception import InputException
-from ai.search.problem.node import GraphNode
+from ai.problem.node import GraphNode
 
 
 maze_1 = [

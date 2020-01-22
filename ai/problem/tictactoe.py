@@ -3,7 +3,7 @@ from collections import defaultdict
 from copy import copy
 
 from ai.search.exception import InputException
-from ai.search.problem.problem import Problem
+from ai.problem import Problem
 
 
 class TicTacToe(Problem):

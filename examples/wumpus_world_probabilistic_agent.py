@@ -2,7 +2,7 @@ import argparse
 from collections import defaultdict
 from copy import deepcopy
 
-from ai.search.problem.wumpus_world import WumpusWorld
+from ai.problem.wumpus_world import WumpusWorld
 
 """
 Runs probabilistic logic to complete a path to the gold while avoiding pits

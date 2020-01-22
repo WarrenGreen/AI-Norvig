@@ -2,7 +2,7 @@ from collections import namedtuple
 from typing import Tuple
 
 from ai.search.exception import InputException
-from ai.search.problem.problem import Problem
+from ai.problem import Problem
 
 
 GridLocation = namedtuple(

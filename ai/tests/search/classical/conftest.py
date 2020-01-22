@@ -1,7 +1,7 @@
 import pytest
 
-from ai.search.problem.graph import GraphProblem
-from ai.search.problem.node import GraphNode, TreeNode
+from ai.problem import GraphProblem
+from ai.problem.node import GraphNode, TreeNode
 
 
 @pytest.fixture

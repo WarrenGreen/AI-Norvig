@@ -1,6 +1,4 @@
-import pytest
-
-from ai.search.problem.grid import GridProblem
+from ai.problem.grid import GridProblem
 
 
 class TestEightQueens:

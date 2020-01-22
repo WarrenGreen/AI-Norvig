@@ -1,6 +1,6 @@
 from copy import deepcopy
 
-from ai.search.problem.problem import Problem
+from ai.problem import Problem
 
 
 class Chess(Problem):

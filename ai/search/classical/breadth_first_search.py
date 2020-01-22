@@ -1,5 +1,5 @@
 from ai.search.exception import NoValidPathException
-from ai.search.problem.graph import GraphProblem
+from ai.problem import GraphProblem
 
 
 class BFS:

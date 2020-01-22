@@ -1,6 +1,6 @@
 from ai.search.exception import InputException
-from ai.search.problem.node import GraphNode
-from ai.search.problem.problem import Problem
+from ai.problem.node import GraphNode
+from ai.problem import Problem
 
 
 class GraphProblem(Problem):

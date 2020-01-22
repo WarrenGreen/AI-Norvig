@@ -1,13 +1,8 @@
-import math
-from collections import defaultdict, namedtuple
-from copy import deepcopy
+from collections import namedtuple
 from random import randint
 from typing import NamedTuple, List
 
-from ai.search.exception import InputException
-from ai.search.problem.grid import GridProblem, GridLocation
-from ai.search.problem.problem import Problem
-
+from ai.problem.grid import GridProblem, GridLocation
 
 WumpusLocation = namedtuple(
     "WumpusLocation",

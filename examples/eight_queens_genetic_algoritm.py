@@ -1,7 +1,7 @@
 import argparse
 
 from ai.search.local.genetic_algorithm import search
-from ai.search.problem.eight_queens import EightQueens
+from ai.problem.eight_queens import EightQueens
 
 
 def main(config):

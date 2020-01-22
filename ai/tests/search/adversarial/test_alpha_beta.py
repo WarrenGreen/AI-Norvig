@@ -1,5 +1,5 @@
 from ai.search.adversarial.alpha_beta import search
-from ai.search.problem.tictactoe import TicTacToe
+from ai.problem.tictactoe import TicTacToe
 
 
 def test_alpha_beta():
