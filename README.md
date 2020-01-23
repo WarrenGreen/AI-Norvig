@@ -6,3 +6,4 @@
 ### [Probabililistic Inference Agent](https://github.com/WarrenGreen/AI-Norvig/blob/master/examples/wumpus_world_probabilistic_agent.py)
 ### [Passive Reinforcement Learning](https://github.com/WarrenGreen/AI-Norvig/tree/master/ai/learning/reinforcement/passive)
 ### [Active Reinforcement Learning](https://github.com/WarrenGreen/AI-Norvig/tree/master/ai/learning/reinforcement/active)
+### [Deep Reinforcement Learning](https://github.com/WarrenGreen/DeepReinforcementLearning)
