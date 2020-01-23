@@ -1,12 +1,6 @@
+from ai.learning.learning_rate_schedules import scaled_learning_rate
 from ai.learning.reinforcement.policy.maximum_policy import MaximumPolicy
 from ai.problem.grid import GridProblem
-
-
-def scaled_learning_rate(total_epochs):
-    def learning_rate(epoch):
-        return total_epochs / (total_epochs + epoch)
-
-    return learning_rate
 
 
 def train(

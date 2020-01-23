@@ -1,16 +1,7 @@
 from collections import defaultdict
 
+from ai.learning.reinforcement.active.util import exploration_function
 from ai.problem.grid import GridProblem
-
-
-def exploration_function(frequency_cutoff):
-    def fn(utility, frequency):
-        if frequency < frequency_cutoff:
-            return 1.0
-        else:
-            return utility
-
-    return fn
 
 
 def train(
